@@ -157,6 +157,7 @@ function deleteTodo(id) {
   });
   // // update the localStorage
   addToStorage(todos);
+  itemsLeftDOM.textContent = `${todos.length} items left`;
 }
 
 // after that addEventListener <ul> with class=todoItems. Because we need to listen for click event in all delete-button and checkbox

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+
+    <link rel="stylesheet" href="index.css" />
+
+    <title>Frontend Mentor | Todo app</title>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="heading">
+          <h1>Todo</h1>
+          <img src="./images/icon-sun.svg" alt="sun" />
+        </div>
+        <input type="text" />
+      </div>
+    </header>
+    <main>
+      <section class="todos">
+        <div class="container">
+          <div class="todos__list"></div>
+          <div class="filters">
+            <h4 class="items-left"></h4>
+            <ul>
+              <li class="filter" data-option="all">All</li>
+              <li class="filter" data-option="active">Active</li>
+              <li class="filter" data-option="completed">Completed</li>
+            </ul>
+            <span class="clear">Clear Completed</span>
+          </div>
+        </div>
+        <div class="filters-mobile">
+          <ul>
+            <li class="filter" data-option="all">All</li>
+            <li class="filter" data-option="active">Active</li>
+            <li class="filter" data-option="completed">Completed</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- Todo
+
+  Add dynamic number items left
+
+  <! All
+  Active 
+  Completed
+
+  Clear Completed -->
+
+    <!-- Drag and drop to reorder list -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

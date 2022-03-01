@@ -10,7 +10,7 @@ You can add and delete todos. You can also filter the todos based on if they are
 
 ### Links
 
-- Github Rpo URL: (https://github.com/bkkcreative19/todo-app)
+- Github Repo URL: (https://github.com/bkkcreative19/todo-app)
 - Live Site URL: (https://bkkcreative19.github.io/todo-app/)
 
 ### Built with

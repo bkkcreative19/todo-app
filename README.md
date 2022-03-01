@@ -8,6 +8,8 @@ You can add and delete todos. You can also filter the todos based on if they are
 
 ### Screenshot
 
+![](./yayy.PNG)
+
 ### Links
 
 - Github Repo URL: (https://github.com/bkkcreative19/todo-app)

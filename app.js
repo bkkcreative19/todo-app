@@ -2,6 +2,38 @@ const input = document.querySelector("input");
 const todoListDOM = document.querySelector(".todos__list");
 const itemsLeftDOM = document.querySelector(".items-left");
 const filters = document.querySelectorAll(".filter");
+const toggleMode = document.querySelector(".toggle-mode");
+
+let lightMode = localStorage.getItem("lightMode");
+lightMode === "enable"
+  ? (toggleMode.src = "../images/icon-moon.svg")
+  : (toggleMode.src = "../images/icon-sun.svg");
+
+const enableLightMode = () => {
+  document.body.classList.add("lightmode");
+  localStorage.setItem("lightMode", "enabled");
+  toggleMode.src = "../images/icon-moon.svg";
+};
+const disableLightMode = () => {
+  document.body.classList.remove("lightmode");
+  localStorage.setItem("lightMode", null);
+  toggleMode.src = "../images/icon-sun.svg";
+};
+
+if (lightMode === "enabled") {
+  enableLightMode();
+}
+
+toggleMode.addEventListener("click", () => {
+  lightMode = localStorage.getItem("lightMode");
+  // if it not current enabled, enable it
+  if (lightMode !== "enabled") {
+    enableLightMode();
+    // if it has been enabled, turn it off
+  } else {
+    disableLightMode();
+  }
+});
 
 input.addEventListener("keyup", (e) => {
   if (event.keyCode === 13) {
@@ -207,4 +239,5 @@ clear.addEventListener("click", clearCompletedTodos);
 function clearCompletedTodos() {
   todos = todos.filter((todo) => todo.completed !== true);
   addToStorage(todos);
+  itemsLeftDOM.textContent = `${newArr.length} items left`;
 }

@@ -10,8 +10,8 @@ You can add and delete todos. You can also filter the todos based on if they are
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://github.com/bkkcreative19/todo-app)
-- Live Site URL: [Add live site URL here](https://bkkcreative19.github.io/todo-app/)
+- Github Rpo URL: (https://github.com/bkkcreative19/todo-app)
+- Live Site URL: (https://bkkcreative19.github.io/todo-app/)
 
 ### Built with
 

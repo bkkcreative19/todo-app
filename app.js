@@ -6,18 +6,18 @@ const toggleMode = document.querySelector(".toggle-mode");
 
 let lightMode = localStorage.getItem("lightMode");
 lightMode === "enable"
-  ? (toggleMode.src = "../images/icon-moon.svg")
-  : (toggleMode.src = "../images/icon-sun.svg");
+  ? (toggleMode.src = "./images/icon-moon.svg")
+  : (toggleMode.src = "./images/icon-sun.svg");
 
 const enableLightMode = () => {
   document.body.classList.add("lightmode");
   localStorage.setItem("lightMode", "enabled");
-  toggleMode.src = "../images/icon-moon.svg";
+  toggleMode.src = "./images/icon-moon.svg";
 };
 const disableLightMode = () => {
   document.body.classList.remove("lightmode");
   localStorage.setItem("lightMode", null);
-  toggleMode.src = "../images/icon-sun.svg";
+  toggleMode.src = "./images/icon-sun.svg";
 };
 
 if (lightMode === "enabled") {

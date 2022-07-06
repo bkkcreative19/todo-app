@@ -4,242 +4,268 @@ const itemsLeftDOM = document.querySelector(".items-left");
 const filters = document.querySelectorAll(".filter");
 const toggleMode = document.querySelector(".toggle-mode");
 
-let lightMode = localStorage.getItem("lightMode");
-lightMode === "enable"
-  ? (toggleMode.src = "/images/icon-moon.svg")
-  : (toggleMode.src = "/images/icon-sun.svg");
-
-const enableLightMode = () => {
-  document.body.classList.add("lightmode");
-  localStorage.setItem("lightMode", "enabled");
-  toggleMode.src = "/images/icon-moon.svg";
-};
-const disableLightMode = () => {
-  document.body.classList.remove("lightmode");
-  localStorage.setItem("lightMode", null);
-  toggleMode.src = "/images/icon-sun.svg";
-};
-
-window.on;
-
-if (lightMode === "enabled") {
-  enableLightMode();
-}
-
-toggleMode.addEventListener("click", () => {
-  lightMode = localStorage.getItem("lightMode");
-  // if it not current enabled, enable it
-  if (lightMode !== "enabled") {
-    enableLightMode();
-    // if it has been enabled, turn it off
-  } else {
-    disableLightMode();
+class TodoList {
+  constructor() {
+    this.todos = JSON.parse(localStorage.getItem("todos"))
+      ? JSON.parse(localStorage.getItem("todos"))
+      : [];
+    this.filteredTodos = [];
   }
-});
 
-input.addEventListener("keyup", (e) => {
-  if (event.keyCode === 13) {
-    // Cancel the default action, if needed
-    event.preventDefault();
-    // Trigger the button element with a click
-    addTodo(input.value);
+  addTodo(todo) {
+    let todos = [...this.todos];
+    todos.push(todo);
+    this.todos = todos;
   }
-});
 
-let todos = [];
-
-function addTodo(item) {
-  if (item === "") return;
-
-  const todo = {
-    id: uuidv4(),
-    name: item,
-    completed: false,
-  };
-
-  todos.push(todo);
-  addToStorage(todos);
-  itemsLeftDOM.textContent = `${todos.length} items left`;
-  input.value = "";
-}
-
-function addToStorage(todos) {
-  localStorage.setItem("todos", JSON.stringify(todos));
-  renderTodos(todos);
-}
-
-function dragstart_handler(ev) {
-  // Add the target element's id to the data transfer object
-  ev.dataTransfer.setData("text/plain", ev.target.id);
-}
-
-function renderTodos(todos) {
-  // console.log(todos);
-  // clear everything inside <ul> with class=todo-items
-  todoListDOM.innerHTML = "";
-  // run through each item inside todos
-  todos.forEach(function (item) {
-    // check if the item is completed
-    const checked = item.completed ? "checked" : null;
-    // make a <li> element and fill it
-    // <li> </li>
-    const div = document.createElement("div");
-    // <li class="item"> </li>
-    div.setAttribute("class", "todo");
-    // <li class="item" data-key="20200708"> </li>
-    div.setAttribute("data-key", item.id);
-    /* <li class="item" data-key="20200708">
-            <input type="checkbox" class="checkbox">
-            Go to Gym
-            <button class="delete-button">X</button>
-          </li> */
-    div.draggable = true;
-    // if item is completed, then add a class to <li> called 'checked', which will add line-through style
-    if (item.completed === true) {
-      div.classList.add("checked");
-    }
-
-    div.addEventListener("dragstart", () => {
-      div.classList.add("dragging");
+  deleteTodo(id) {
+    let todos = [...this.todos];
+    todos = todos.filter(function (item) {
+      //   // use != not !==, because here types are different. One is number and other is string
+      return item.id != id;
     });
-    div.addEventListener("dragend", () => {
-      div.classList.remove("dragging");
-    });
+    this.todos = todos;
 
-    div.innerHTML = `
-      <img class="check ${checked}" src="./images/icon-check.svg" alt="" />
-      <span>${item.name}</span>
-      <img class="cross" src="./images/icon-cross.svg" alt="" />
-       `;
-    // finally add the <li> to the <ul>
-    todoListDOM.append(div);
-    itemsLeftDOM.textContent = `${todos.length} items left`;
-  });
-}
-
-todoListDOM.addEventListener("dragover", (e) => {
-  // console.log(e.clientX);
-  e.preventDefault();
-  const afterElement = getDragAfterElement(todoListDOM, e.clientY);
-  const todo = document.querySelector(".todo");
-
-  if (afterElement === null) {
-    todoListDOM.appendChild(todo);
-  } else {
-    todoListDOM.insertBefore(todo, afterElement);
+    // itemsLeftDOM.textContent = `${todos.length} items left`;
   }
-  const isDragging = document.querySelector(".dragging");
-});
 
-function getDragAfterElement(container, y) {
-  // Add the target element's id to the data transfer object
-  const draggableElements = [
-    ...container.querySelectorAll(".todo:not(.dragging)"),
-  ];
-
-  return draggableElements.reduce(
-    (closest, child) => {
-      const box = child.getBoundingClientRect();
-      const offset = y - box.top - box.height / 2;
-
-      if (offset < 0 && offset > closest.offset) {
-        return { offset: offset, element: child };
-      } else {
-        return closest;
+  toggle(id) {
+    let todos = [...this.todos];
+    todos.forEach(function (item) {
+      // use == not ===, because here types are different. One is number and other is string
+      if (item.id == id) {
+        // toggle the value
+        item.isCompleted = !item.isCompleted;
       }
-    },
+    });
+    // console.log(todos);
+    this.todos = todos;
+  }
 
-    { offset: Number.NEGATIVE_INFINITY }
-  ).element;
-}
+  filterTodos(filter) {
+    let todos = [...this.todos];
 
-{
-  /* <input type="checkbox" class="checkbox" ${checked}>
-${item.name}
-<button class="delete-button">X</button> */
-}
+    if (filter === "all") {
+      this.todos = todos;
+    } else if (filter === "active") {
+      todos = todos.filter((todo) => todo.isCompleted !== true);
+    } else {
+      todos = todos.filter((todo) => todo.isCompleted !== false);
+    }
 
-function getFromLocalStorage() {
-  const fromLocal = localStorage.getItem("todos");
-  // if reference exists
-  if (fromLocal) {
-    // converts back to array and store it in todos array
-    todos = JSON.parse(fromLocal);
+    this.filteredTodos = todos;
+  }
 
-    renderTodos(todos);
+  clearCompletedTodos() {
+    let todos = [...this.todos].filter((todo) => todo.isCompleted !== true);
+    this.todos = todos;
+    // itemsLeftDOM.textContent = `${newArr.length} items left`;
   }
 }
 
-getFromLocalStorage();
+const todoList = new TodoList();
 
-function toggle(id) {
-  todos.forEach(function (item) {
-    // use == not ===, because here types are different. One is number and other is string
-    if (item.id == id) {
-      // toggle the value
-      item.completed = !item.completed;
+class UI {
+  constructor() {
+    this.startIndex = null;
+    this.endIndex = null;
+  }
+  todoListDOM = document.querySelector(".todos__list");
+
+  updateStorage(todos) {
+    localStorage.setItem("todos", JSON.stringify(todos));
+    this.renderTodos(todos);
+  }
+
+  renderTodos(todos) {
+    itemsLeftDOM.textContent = `${todos.length} items left`;
+    todos.sort((a, b) => a.id - b.id);
+    this.todoListDOM.innerHTML = "";
+    todos.forEach((todo) => {
+      const checked = todo.isCompleted ? "checked" : null;
+
+      const div = document.createElement("div");
+      div.classList.add("draggable");
+
+      div.setAttribute("class", "todo");
+
+      div.setAttribute("data-key", todo.id);
+
+      div.draggable = true;
+
+      if (todo.isCompleted === true) {
+        div.classList.add("checked");
+      }
+
+      div.addEventListener("dragstart", () => {
+        this.dragStart(div);
+      });
+
+      div.addEventListener("dragover", (e) => {
+        e.preventDefault();
+      });
+
+      div.addEventListener("dragenter", (e) => {
+        this.dragEnter(div);
+      });
+
+      div.addEventListener("drop", () => {
+        this.drop(div);
+      });
+      div.addEventListener("dragleave", () => {
+        this.dragLeave(div);
+      });
+
+      div.addEventListener("dragend", () => {
+        this.dragEnd(div);
+      });
+
+      div.innerHTML = `
+        <img class="check ${checked}" src="./images/icon-check.svg" alt="" />
+        <span>${todo.name}</span>
+        <img class="cross" src="./images/icon-cross.svg" alt="" />
+         `;
+      // finally add the <li> to the <ul>
+      this.todoListDOM.append(div);
+    });
+  }
+
+  dragStart(element) {
+    // console.log("start");
+    element.classList.add("dragging");
+
+    // console.log(element.closest("div").getAttribute("data-key"));
+    this.startIndex = element.closest("div").getAttribute("data-key");
+  }
+
+  dragEnd(element) {
+    // console.log("end");
+    element.classList.remove("dragging");
+  }
+
+  drop(element) {
+    this.endIndex = element.getAttribute("data-key");
+    // console.log(element.getAttribute("data-key"));
+    element.classList.remove("dragging");
+    this.swapItems(this.startIndex, this.endIndex);
+  }
+
+  dragEnter(element) {
+    element.classList.add("dragging");
+  }
+
+  dragLeave(element) {
+    element.classList.remove("dragging");
+  }
+
+  swapItems(fromIndex, toIndex) {
+    let todos = [...todoList.todos];
+    // console.log(todos);
+    const itemOne = todos[fromIndex];
+    const itemTwo = todos[toIndex];
+    console.log("from", fromIndex, "to", toIndex);
+
+    // const tmp = a[4];
+    // a[4] = a[3];
+    // a[3] = tmp;
+
+    const temp = todos[fromIndex].id;
+
+    todos[fromIndex].id = todos[toIndex].id;
+    todos[toIndex].id = temp;
+    // console.log(todos);
+    ui.renderTodos(todos);
+    // listItems[fromIndex].appendChild(itemTwo);
+    // listItems[toIndex].appendChild(itemOne);
+  }
+}
+
+class Todo {
+  constructor(id, name) {
+    this.id = id;
+    this.name = name;
+    this.isCompleted = false;
+  }
+}
+
+class Theme {
+  constructor() {
+    this.lightMode = localStorage.getItem("light");
+    this.themeMode = "light";
+  }
+
+  handleThemeSwitich(e) {
+    if (this.themeMode === "light") {
+      this.themeMode = "dark";
+    } else {
+      this.themeMode = "light";
     }
-  });
-  addToStorage(todos);
-}
-// deletes a todo from todos array, then updates localstorage and renders updated list to screen
-function deleteTodo(id) {
-  // filters out the <li> with the id and updates the todos array
-  todos = todos.filter(function (item) {
-    //   // use != not !==, because here types are different. One is number and other is string
-    return item.id != id;
-  });
-  // // update the localStorage
-  addToStorage(todos);
-  itemsLeftDOM.textContent = `${todos.length} items left`;
+
+    if (this.themeMode === "light") {
+      document.body.classList.add("lightmode");
+      localStorage.setItem("lightMode", "enabled");
+      e.target.src = "/images/icon-moon.svg";
+    } else {
+      e.target.src = "images/icon-sun.svg";
+      localStorage.setItem("lightMode", null);
+      document.body.classList.remove("lightmode");
+    }
+
+    return this.themeMode;
+  }
+
+  checkIfLightMode() {
+    this.lightMode === "enable"
+      ? (toggleMode.src = "/images/icon-moon.svg")
+      : (toggleMode.src = "/images/icon-sun.svg");
+  }
 }
 
-// after that addEventListener <ul> with class=todoItems. Because we need to listen for click event in all delete-button and checkbox
-todoListDOM.addEventListener("click", function (event) {
-  // check if the event is on checkbox
+const ui = new UI();
+const theme = new Theme();
 
-  if (event.target.classList.contains("check")) {
+theme.checkIfLightMode();
+ui.renderTodos(todoList.todos);
+// const local = new LocalStorage();
+
+document.getElementById("addTodo").addEventListener("keyup", function (e) {
+  if (e.key === "Enter") {
+    const index = todoList.todos.length === 0 ? 0 : todoList.todos.length;
+    const todo = new Todo(index, e.target.value);
+
+    // ui.addTodo(todo);
+    todoList.addTodo(todo);
+    ui.updateStorage(todoList.todos);
+  }
+});
+
+document.querySelector(".todos__list").addEventListener("click", (e) => {
+  if (e.target.classList.contains("check")) {
     // toggle the state
-    toggle(event.target.parentElement.getAttribute("data-key"));
+    todoList.toggle(e.target.parentElement.getAttribute("data-key"));
+    ui.updateStorage(todoList.todos);
   }
   // check if that is a delete-button
-  if (event.target.classList.contains("cross")) {
+  if (e.target.classList.contains("cross")) {
     // get id from data-key attribute's value of parent <li> where the delete-button is present
-    deleteTodo(event.target.parentElement.getAttribute("data-key"));
+    todoList.deleteTodo(e.target.parentElement.getAttribute("data-key"));
+    ui.updateStorage(todoList.todos);
   }
 });
 
-function filterTodos(filter) {
-  document
-    .querySelectorAll(".active")
-    .forEach((item) => item.classList.remove("active"));
-  const option = filter.getAttribute("data-option");
-  let newArr = [];
-  if (option === "active") {
-    filter.classList.add("active");
-    newArr = todos.filter((todo) => todo.completed === false);
-  } else if (option === "completed") {
-    filter.classList.add("active");
-    newArr = todos.filter((todo) => todo.completed !== false);
-  } else {
-    filter.classList.add("active");
-    newArr = todos;
-  }
-  renderTodos(newArr);
-  itemsLeftDOM.textContent = `${newArr.length} items left`;
-}
+document.querySelector(".toggle-mode").addEventListener("click", (e) => {
+  theme.handleThemeSwitich(e);
+});
 
-filters.forEach((filter) => {
-  filter.addEventListener("click", () => {
-    filterTodos(filter);
+document.querySelector(".clear").addEventListener("click", () => {
+  console.log("yay");
+  todoList.clearCompletedTodos();
+  ui.updateStorage(todoList.todos);
+});
+
+document.querySelectorAll(".filter").forEach((filter) => {
+  filter.addEventListener("click", (e) => {
+    todoList.filterTodos(filter.getAttribute("data-option"));
+    ui.renderTodos(todoList.filteredTodos);
   });
 });
-
-const clear = document.querySelector(".clear");
-clear.addEventListener("click", clearCompletedTodos);
-
-function clearCompletedTodos() {
-  todos = todos.filter((todo) => todo.completed !== true);
-  addToStorage(todos);
-  itemsLeftDOM.textContent = `${newArr.length} items left`;
-}

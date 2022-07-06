@@ -61,6 +61,44 @@ class TodoList {
     this.todos = todos;
     // itemsLeftDOM.textContent = `${newArr.length} items left`;
   }
+
+  dragStart(element) {
+    // console.log("start");
+    // element.classList.add("dragging");
+
+    // console.log(element.closest("div").getAttribute("data-key"));
+    this.startIndex = element.closest("div").getAttribute("data-key");
+    console.log(this.startIndex);
+  }
+
+  drop(element) {
+    let endIndex = element.getAttribute("data-key");
+    // console.log(element.getAttribute("data-key"));
+    element.classList.remove("dragging");
+    this.swapItems(this.startIndex, endIndex);
+  }
+
+  dragEnter(element) {
+    element.classList.add("dragging");
+  }
+
+  dragLeave(element) {
+    element.classList.remove("dragging");
+  }
+
+  swapItems(fromIndex, toIndex) {
+    let todos = [...this.todos];
+    const itemOne = todos[fromIndex];
+    const itemTwo = todos[toIndex];
+
+    const temp = todos[fromIndex].id;
+
+    todos[fromIndex].id = todos[toIndex].id;
+    todos[toIndex].id = temp;
+
+    this.todos = todos;
+    ui.renderTodos(todos);
+  }
 }
 
 const todoList = new TodoList();
@@ -98,7 +136,7 @@ class UI {
       }
 
       div.addEventListener("dragstart", () => {
-        this.dragStart(div);
+        todoList.dragStart(div);
       });
 
       div.addEventListener("dragover", (e) => {
@@ -106,18 +144,14 @@ class UI {
       });
 
       div.addEventListener("dragenter", (e) => {
-        this.dragEnter(div);
+        todoList.dragEnter(div);
       });
 
       div.addEventListener("drop", () => {
-        this.drop(div);
+        todoList.drop(div);
       });
       div.addEventListener("dragleave", () => {
-        this.dragLeave(div);
-      });
-
-      div.addEventListener("dragend", () => {
-        this.dragEnd(div);
+        todoList.dragLeave(div);
       });
 
       div.innerHTML = `
@@ -128,55 +162,6 @@ class UI {
       // finally add the <li> to the <ul>
       this.todoListDOM.append(div);
     });
-  }
-
-  dragStart(element) {
-    // console.log("start");
-    element.classList.add("dragging");
-
-    // console.log(element.closest("div").getAttribute("data-key"));
-    this.startIndex = element.closest("div").getAttribute("data-key");
-  }
-
-  dragEnd(element) {
-    // console.log("end");
-    element.classList.remove("dragging");
-  }
-
-  drop(element) {
-    this.endIndex = element.getAttribute("data-key");
-    // console.log(element.getAttribute("data-key"));
-    element.classList.remove("dragging");
-    this.swapItems(this.startIndex, this.endIndex);
-  }
-
-  dragEnter(element) {
-    element.classList.add("dragging");
-  }
-
-  dragLeave(element) {
-    element.classList.remove("dragging");
-  }
-
-  swapItems(fromIndex, toIndex) {
-    let todos = [...todoList.todos];
-    // console.log(todos);
-    const itemOne = todos[fromIndex];
-    const itemTwo = todos[toIndex];
-    console.log("from", fromIndex, "to", toIndex);
-
-    // const tmp = a[4];
-    // a[4] = a[3];
-    // a[3] = tmp;
-
-    const temp = todos[fromIndex].id;
-
-    todos[fromIndex].id = todos[toIndex].id;
-    todos[toIndex].id = temp;
-    // console.log(todos);
-    ui.renderTodos(todos);
-    // listItems[fromIndex].appendChild(itemTwo);
-    // listItems[toIndex].appendChild(itemOne);
   }
 }
 
@@ -226,14 +211,12 @@ const theme = new Theme();
 
 theme.checkIfLightMode();
 ui.renderTodos(todoList.todos);
-// const local = new LocalStorage();
 
 document.getElementById("addTodo").addEventListener("keyup", function (e) {
   if (e.key === "Enter") {
     const index = todoList.todos.length === 0 ? 0 : todoList.todos.length;
     const todo = new Todo(index, e.target.value);
 
-    // ui.addTodo(todo);
     todoList.addTodo(todo);
     ui.updateStorage(todoList.todos);
   }
@@ -241,13 +224,10 @@ document.getElementById("addTodo").addEventListener("keyup", function (e) {
 
 document.querySelector(".todos__list").addEventListener("click", (e) => {
   if (e.target.classList.contains("check")) {
-    // toggle the state
     todoList.toggle(e.target.parentElement.getAttribute("data-key"));
     ui.updateStorage(todoList.todos);
   }
-  // check if that is a delete-button
   if (e.target.classList.contains("cross")) {
-    // get id from data-key attribute's value of parent <li> where the delete-button is present
     todoList.deleteTodo(e.target.parentElement.getAttribute("data-key"));
     ui.updateStorage(todoList.todos);
   }

@@ -92,15 +92,32 @@ header .heading h1 {
   color: #fff;
   text-transform: uppercase;
 }
-header input {
-  width: 100%;
-  padding: 2rem;
-  margin-top: 4rem;
+header form {
+  display: flex;
+  padding: 2em 2.5em;
   background: var(--secondary-background);
+  margin-top: 1.5em;
+}
+header form .circle {
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--secondary-background);
+  padding: 1.5rem;
+}
+header form input {
+  width: 100%;
+  margin-left: 1em;
+  background: transparent;
   box-shadow: 0px 35px 50px -15px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
   border: none;
   color: #fff;
+  font-size: 1.8rem;
+  font-family: "Josefin Sans", sans-serif;
+  opacity: 0.7;
+}
+header form input:focus {
+  outline: none;
 }
 
 .toggle-mode {
@@ -135,19 +152,28 @@ main {
   border-bottom: 1px solid var(--border);
   cursor: move;
 }
-.todo .check {
-  border-radius: 50%;
+.todo .circle {
   border: 1px solid var(--border);
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
   padding: 1.1rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.todo .check:hover {
+.todo .circle .checked {
+  background: linear-gradient(135deg, #55ddff 0%, #c058f3 100%);
+}
+.todo .circle:hover {
   border-color: #55ddff;
 }
 .todo .cross {
   margin-left: auto;
   cursor: pointer;
   display: none;
+  filter: red;
 }
 .todo span {
   display: inline-block;
@@ -215,10 +241,11 @@ main {
     max-width: 540px;
     margin: 0 auto;
     margin-top: 2rem;
-    background: #25273d;
+    background: var(--secondary-background);
     box-shadow: 0px 35px 50px -15px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     padding: 2rem;
+    font-weight: 700;
     font-size: 1.4rem;
     color: #5b5e7e;
   }
@@ -238,6 +265,15 @@ main {
 .dragging {
   opacity: 0.5;
   background: #313030;
+}
+
+.bottom {
+  text-align: center;
+  font-size: 1.6rem;
+  color: #9394a5;
+  font-weight: 700;
+  opacity: 0.6;
+  margin-top: 4em;
 }
 
 /*# sourceMappingURL=index.css.map */

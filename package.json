@@ -4,12 +4,28 @@
   "description": "![Design preview for the Todo app coding challenge](./design/desktop-preview.jpg)",
   "main": "index.js",
   "scripts": {
-    "start": "sass --watch style.scss index.css"
+    "start": "sass --watch style.scss index.css",
+    "watch": "webpack --watch",
+    "dev": "webpack serve --open",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "sass": "^1.49.9"
-  }
+  },
+  "devDependencies": {
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^4.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bkkcreative19/todo-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bkkcreative19/todo-app/issues"
+  },
+  "homepage": "https://github.com/bkkcreative19/todo-app#readme"
 }

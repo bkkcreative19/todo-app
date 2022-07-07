@@ -20,3 +20,9 @@ style-guide.md
 node_modules
 design
 index.js
+dist
+index.css.map
+index1.js
+t.txt
+src
+webpack.config.js

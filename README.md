@@ -8,7 +8,7 @@ You can add and delete todos. You can also filter the todos based on if they are
 
 ### Screenshot
 
-![](./yayy.PNG)
+![](./images/yayy.PNG)
 
 ### Links
 
@@ -22,3 +22,10 @@ You can add and delete todos. You can also filter the todos based on if they are
 - Flexbox
 - CSS Grid
 - desktop-first workflow
+
+### Features
+
+- Light/Dark Mode
+- Drag/Drop Functionality
+- Localstorage
+- Filter Functionality

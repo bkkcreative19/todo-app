@@ -16,7 +16,10 @@
           <h1>Todo</h1>
           <img class="toggle-mode" src="" alt="sun" />
         </div>
-        <input id="addTodo" type="text" />
+        <form>
+          <div class="circle"></div>
+          <input placeholder="Create a new todo..." id="addTodo" type="text" />
+        </form>
       </div>
     </header>
     <main>
@@ -26,9 +29,11 @@
           <div class="filters">
             <h4 class="items-left"></h4>
             <ul>
-              <li class="filter" data-option="all">All</li>
-              <li class="filter" data-option="active">Active</li>
-              <li class="filter" data-option="completed">Completed</li>
+              <li class="filter" data-option="all" data-id="1">All</li>
+              <li class="filter" data-option="active" data-id="2">Active</li>
+              <li class="filter" data-option="completed" data-id="3">
+                Completed
+              </li>
             </ul>
             <span class="clear">Clear Completed</span>
           </div>
@@ -40,21 +45,10 @@
             <li class="filter" data-option="completed">Completed</li>
           </ul>
         </div>
+        <p class="bottom">Drag and drop to reorder list</p>
       </section>
     </main>
 
-    <!-- Todo
-
-  Add dynamic number items left
-
-  <! All
-  Active 
-  Completed
-
-  Clear Completed -->
-
-    <!-- Drag and drop to reorder list -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

@@ -78,8 +78,6 @@ class TodoList {
 
   swapItems(fromIndex, toIndex) {
     let todos = [...this.todos];
-    const itemOne = todos[fromIndex];
-    const itemTwo = todos[toIndex];
 
     const temp = todos[fromIndex].id;
 

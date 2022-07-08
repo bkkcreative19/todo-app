@@ -21,7 +21,7 @@ You can add and delete todos. You can also filter the todos based on if they are
 - Sass
 - Flexbox
 - CSS Grid
-- desktop-first workflow
+- Desktop-first workflow
 
 ### Features
 

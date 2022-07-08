@@ -111,7 +111,7 @@ header form input {
   box-shadow: 0px 35px 50px -15px rgba(0, 0, 0, 0.5);
   border-radius: 5px;
   border: none;
-  color: #fff;
+  color: var(--main-text);
   font-size: 1.8rem;
   font-family: "Josefin Sans", sans-serif;
   opacity: 0.7;

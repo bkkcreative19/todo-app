@@ -3,6 +3,76 @@ const itemsLeftDOM = document.querySelector(".items-left");
 const filters = document.querySelectorAll(".filter");
 const toggleMode = document.querySelector(".toggle-mode");
 
+class UI {
+  constructor() {
+    this.startIndex = null;
+    this.endIndex = null;
+  }
+  todoListDOM = document.querySelector(".todos__list");
+
+  updateStorage(todos) {
+    localStorage.setItem("todos", JSON.stringify(todos));
+    this.renderTodos(todos);
+  }
+
+  renderTodos(todos) {
+    itemsLeftDOM.textContent = `${todos.length} items left`;
+    todos.sort((a, b) => a.id - b.id);
+    this.todoListDOM.innerHTML = "";
+    todos.forEach((todo) => {
+      const checked = todo.isCompleted ? "checked" : null;
+
+      const div = document.createElement("div");
+      div.classList.add("draggable");
+
+      div.setAttribute("class", "todo");
+
+      div.setAttribute("data-key", todo.id);
+
+      div.draggable = true;
+
+      if (todo.isCompleted === true) {
+        div.classList.add("checked");
+      }
+
+      div.addEventListener("dragstart", () => {
+        todoList.dragStart(div);
+      });
+
+      div.addEventListener("dragover", (e) => {
+        e.preventDefault();
+      });
+
+      div.addEventListener("dragenter", (e) => {
+        todoList.dragEnter(div);
+      });
+
+      div.addEventListener("drop", () => {
+        todoList.drop(div);
+      });
+      div.addEventListener("dragleave", () => {
+        todoList.dragLeave(div);
+      });
+
+      div.innerHTML = `
+        <div class='circle ${checked}'>
+          ${
+            checked
+              ? ' <img class="check" src="./images/icon-check.svg" alt="" />'
+              : ""
+          }
+         
+        </div>
+        
+        <span>${todo.name}</span>
+        <img class="cross" src="./images/icon-cross.svg" alt="" />
+         `;
+
+      this.todoListDOM.append(div);
+    });
+  }
+}
+
 class TodoList {
   constructor() {
     this.todos = JSON.parse(localStorage.getItem("todos"))
@@ -91,76 +161,6 @@ class TodoList {
 
 const todoList = new TodoList();
 
-class UI {
-  constructor() {
-    this.startIndex = null;
-    this.endIndex = null;
-  }
-  todoListDOM = document.querySelector(".todos__list");
-
-  updateStorage(todos) {
-    localStorage.setItem("todos", JSON.stringify(todos));
-    this.renderTodos(todos);
-  }
-
-  renderTodos(todos) {
-    itemsLeftDOM.textContent = `${todos.length} items left`;
-    todos.sort((a, b) => a.id - b.id);
-    this.todoListDOM.innerHTML = "";
-    todos.forEach((todo) => {
-      const checked = todo.isCompleted ? "checked" : null;
-
-      const div = document.createElement("div");
-      div.classList.add("draggable");
-
-      div.setAttribute("class", "todo");
-
-      div.setAttribute("data-key", todo.id);
-
-      div.draggable = true;
-
-      if (todo.isCompleted === true) {
-        div.classList.add("checked");
-      }
-
-      div.addEventListener("dragstart", () => {
-        todoList.dragStart(div);
-      });
-
-      div.addEventListener("dragover", (e) => {
-        e.preventDefault();
-      });
-
-      div.addEventListener("dragenter", (e) => {
-        todoList.dragEnter(div);
-      });
-
-      div.addEventListener("drop", () => {
-        todoList.drop(div);
-      });
-      div.addEventListener("dragleave", () => {
-        todoList.dragLeave(div);
-      });
-
-      div.innerHTML = `
-        <div class='circle ${checked}'>
-          ${
-            checked
-              ? ' <img class="check" src="./images/icon-check.svg" alt="" />'
-              : ""
-          }
-         
-        </div>
-        
-        <span>${todo.name}</span>
-        <img class="cross" src="./images/icon-cross.svg" alt="" />
-         `;
-
-      this.todoListDOM.append(div);
-    });
-  }
-}
-
 class Todo {
   constructor(id, name) {
     this.id = id;
@@ -195,7 +195,7 @@ class Theme {
       localStorage.setItem("lightMode", "enabled");
       toggleMode.src = "/images/icon-moon.svg";
     } else {
-      toggleMode.src = "images/icon-sun.svg";
+      toggleMode.src = "/images/icon-sun.svg";
       localStorage.setItem("lightMode", null);
       document.body.classList.remove("lightmode");
     }

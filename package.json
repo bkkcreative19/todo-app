@@ -6,8 +6,7 @@
   "scripts": {
     "start": "sass --watch style.scss index.css",
     "watch": "webpack --watch",
-    "dev": "webpack serve --open",
-    "build": "webpack"
+    "dev": "webpack serve --open"
   },
   "keywords": [],
   "author": "",

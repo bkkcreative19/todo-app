@@ -1,3 +1,5 @@
+import "./index.css";
+
 const todoListDOM = document.querySelector(".todos__list");
 const itemsLeftDOM = document.querySelector(".items-left");
 const filters = document.querySelectorAll(".filter");

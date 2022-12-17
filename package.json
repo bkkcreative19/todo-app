@@ -6,7 +6,8 @@
   "scripts": {
     "start": "sass --watch style.scss index.css",
     "watch": "webpack --watch",
-    "dev": "webpack serve --open"
+    "dev": "webpack serve --open",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,8 @@
     "sass": "^1.49.9"
   },
   "devDependencies": {
+    "css-loader": "^6.7.3",
+    "style-loader": "^3.3.1",
     "webpack": "^5.38.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^4.9.3"
